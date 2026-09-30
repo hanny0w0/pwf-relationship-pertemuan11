@@ -4,16 +4,13 @@
 
 @section('content')
     <h2>Daftar Buku</h2>
-    
-    @if(count($books) > 0)
-        <ul>
-            @foreach($books as $book)
-                <li>
-                    <strong>{{ $book['title'] }}</strong> - {{ $book['author'] }} ({{ $book['year'] }})
-                </li>
-            @endforeach
-        </ul>
-    @else
-        <p>Buku sedang kosong.</p>
-    @endif
+
+    @foreach($books as $book)
+        <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #ddd;">
+            <h3>{{ $book->title }}</h3>
+            <p><strong>Penulis:</strong> {{ $book->author }}</p>
+            <p><strong>Tahun:</strong> {{ $book->year }}</p>
+            <p><strong>Stok:</strong> {{ $book->stock }}</p>
+        </div>
+    @endforeach
 @endsection
