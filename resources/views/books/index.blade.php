@@ -2,6 +2,11 @@
 
 @section('content')
     <h2>Daftar Buku</h2>
+
+    @if (session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
+
     <a href="/books/create">+ Tambah Buku Baru</a>
     <br><br>
 

@@ -20,17 +20,21 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    // STORE (Simpan Data Baru ke Database)
+    // STORE (Simpan Data Baru ke Database dengan Validasi Baru)
     public function store(Request $request)
     {
-        Book::create([
-            'title'  => $request->title,
-            'author' => $request->author,
-            'year'   => $request->year,
-            'stock'  => $request->stock,
+        $validated = $request->validate([
+            'title'  => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'year'   => 'required|integer|min:1900|max:' . date('Y'), // BARU: max tahun sekarang
+            'stock'  => 'required|integer|min:0',
+            'price'  => 'required|numeric|min:1000',                  // BARU: rule numeric & min harga
+            'isbn'   => 'required|numeric|digits:13|unique:books,isbn', // BARU: rule numeric, digits & unique
         ]);
 
-        return redirect()->route('books.index');
+        Book::create($validated);
+
+        return redirect()->route('books.index')->with('success', 'Data buku berhasil ditambahkan.');
     }
 
     // SHOW (Tampilkan Detail Buku)
@@ -45,23 +49,28 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    // UPDATE (Simpan Perubahan Data ke Database)
+    // UPDATE (Simpan Perubahan Data ke Database dengan Validasi)
     public function update(Request $request, Book $book)
     {
-        $book->update([
-            'title'  => $request->title,
-            'author' => $request->author,
-            'year'   => $request->year,
-            'stock'  => $request->stock,
+        $validated = $request->validate([
+            'title'  => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'year'   => 'required|integer|min:1900|max:' . date('Y'),
+            'stock'  => 'required|integer|min:0',
+            'price'  => 'required|numeric|min:1000',
+            'isbn'   => 'required|numeric|digits:13|unique:books,isbn,' . $book->id, // Kecualikan ID saat update
         ]);
 
-        return redirect()->route('books.index');
+        $book->update($validated);
+
+        return redirect()->route('books.index')->with('success', 'Data buku berhasil diperbarui.');
     }
 
     // DESTROY (Hapus Buku dari Database)
     public function destroy(Book $book)
     {
         $book->delete();
-        return redirect()->route('books.index');
+        
+        return redirect()->route('books.index')->with('success', 'Data buku berhasil dihapus.');
     }
 }

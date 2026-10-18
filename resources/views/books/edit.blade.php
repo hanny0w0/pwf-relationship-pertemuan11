@@ -7,25 +7,37 @@
         @csrf
         @method('PUT')
 
-        <p>
-            <label>Judul Buku:</label><br>
-            <input type="text" name="title" value="{{ $book->title }}" required>
-        </p>
+        <div style="margin-bottom: 12px;">
+            <label>Judul Buku</label><br>
+            <input type="text" name="title" value="{{ old('title', $book->title) }}">
+            @error('title')
+                <p style="color: red; margin: 4px 0 0 0;">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <p>
-            <label>Penulis:</label><br>
-            <input type="text" name="author" value="{{ $book->author }}" required>
-        </p>
+        <div style="margin-bottom: 12px;">
+            <label>Penulis</label><br>
+            <input type="text" name="author" value="{{ old('author', $book->author) }}">
+            @error('author')
+                <p style="color: red; margin: 4px 0 0 0;">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <p>
-            <label>Tahun Terbit:</label><br>
-            <input type="number" name="year" value="{{ $book->year }}" required>
-        </p>
+        <div style="margin-bottom: 12px;">
+            <label>Tahun Terbit</label><br>
+            <input type="number" name="year" value="{{ old('year', $book->year) }}">
+            @error('year')
+                <p style="color: red; margin: 4px 0 0 0;">{{ $message }}</p>
+            @enderror
+        </div>
 
-        <p>
-            <label>Stok:</label><br>
-            <input type="number" name="stock" value="{{ $book->stock }}" required>
-        </p>
+        <div style="margin-bottom: 12px;">
+            <label>Stok</label><br>
+            <input type="number" name="stock" value="{{ old('stock', $book->stock) }}">
+            @error('stock')
+                <p style="color: red; margin: 4px 0 0 0;">{{ $message }}</p>
+            @enderror
+        </div>
 
         <button type="submit">Update Buku</button>
         <a href="/books">Batal</a>
