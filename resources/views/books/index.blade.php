@@ -10,34 +10,23 @@
     <a href="/books/create">+ Tambah Buku Baru</a>
     <br><br>
 
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Judul</th>
-                <th>Penulis</th>
-                <th>Tahun</th>
-                <th>Stok</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($books as $book)
-                <tr>
-                    <td>{{ $book->title }}</td>
-                    <td>{{ $book->author }}</td>
-                    <td>{{ $book->year }}</td>
-                    <td>{{ $book->stock }}</td>
-                    <td>
-                        <a href="/books/{{ $book->id }}">Detail</a> | 
-                        <a href="/books/{{ $book->id }}/edit">Edit</a> | 
-                        <form action="/books/{{ $book->id }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Yakin hapus?')">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    @foreach ($books as $book)
+        <div>
+            <h3>{{ $book->title }}</h3>
+            <p>Penulis: {{ $book->author }}</p>
+            <p>Kategori: {{ $book->category?->name ?? 'Belum ada kategori' }}</p>
+            <p>Tahun: {{ $book->year }} | Stok: {{ $book->stock }}</p>
+            
+            <p>
+                <a href="/books/{{ $book->id }}">Detail</a> | 
+                <a href="/books/{{ $book->id }}/edit">Edit</a> | 
+                <form action="/books/{{ $book->id }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Yakin hapus?')">Hapus</button>
+                </form>
+            </p>
+            <hr>
+        </div>
+    @endforeach
 @endsection
